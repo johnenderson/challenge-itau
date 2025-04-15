@@ -5,6 +5,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pixms/pom.xml" />
+        <option value="$PROJECT_DIR$/pix-sub/pom.xml" />
+        <option value="$PROJECT_DIR$/pix-confirm/pom.xml" />
       </list>
     </option>
   </component>

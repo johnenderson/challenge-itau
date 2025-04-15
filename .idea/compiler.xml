@@ -6,12 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="pix-sub" />
+        <module name="pix-confirm" />
         <module name="pixms" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="pix-confirm" options="-parameters" />
+      <module name="pix-sub" options="-parameters" />
       <module name="pixms" options="-parameters" />
     </option>
   </component>
