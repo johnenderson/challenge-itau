@@ -21,6 +21,4 @@ public class InvalidPixKeyException extends PixMsException {
 
         return pd;
     }
-
-
 }

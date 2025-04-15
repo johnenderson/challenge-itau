@@ -21,5 +21,4 @@ public abstract class PixMsException extends RuntimeException {
 
         return pd;
     }
-
 }
