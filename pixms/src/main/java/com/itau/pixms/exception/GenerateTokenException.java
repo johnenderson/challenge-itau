@@ -19,6 +19,6 @@ public class GenerateTokenException extends PixMsException {
     pd.setTitle("Generate Token Exception");
     pd.setDetail(detail);
 
-    return super.toProblemDetail();
+    return pd;
   }
 }
