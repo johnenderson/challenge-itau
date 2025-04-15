@@ -1,6 +1,6 @@
 package com.itau.pixms.infrastructure.entity;
 
-import com.itau.pixms.controller.dto.StatusOperation;
+import com.itau.pixms.type.StatusOperationType;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Document(collection = "cob_transaction")
 public class Cob {
@@ -29,7 +30,7 @@ public class Cob {
     private int revision;
 
     @Field("status_operation")
-    private StatusOperation statusOperation;
+    private StatusOperationType statusOperationType;
 
     private CobCalendar cobCalendar;
 
@@ -56,7 +57,7 @@ public class Cob {
         this.txId = builder.txId;
         this.key = builder.key;
         this.revision = builder.revision;
-        this.statusOperation = builder.statusOperation;
+        this.statusOperationType = builder.statusOperationType;
         this.cobCalendar = builder.cobCalendar;
         this.debtor = builder.debtor;
         this.amount = builder.amount;
@@ -74,7 +75,7 @@ public class Cob {
         this.txId = null;
         this.key = null;
         this.revision = 0;
-        this.statusOperation = null;
+        this.statusOperationType = null;
         this.cobCalendar = null;
         this.debtor = null;
         this.amount = null;
@@ -101,8 +102,8 @@ public class Cob {
         return revision;
     }
 
-    public StatusOperation getStatusOperation() {
-        return statusOperation;
+    public StatusOperationType getStatusOperation() {
+        return statusOperationType;
     }
 
     public CobCalendar getCalendar() {
@@ -153,8 +154,8 @@ public class Cob {
         this.revision = revision;
     }
 
-    public void setStatusOperation(StatusOperation statusOperation) {
-        this.statusOperation = statusOperation;
+    public void setStatusOperation(StatusOperationType statusOperationType) {
+        this.statusOperationType = statusOperationType;
     }
 
     public void setCobCalendar(CobCalendar cobCalendar) {
@@ -194,7 +195,7 @@ public class Cob {
         private String txId;
         private String key;
         private int revision;
-        private StatusOperation statusOperation;
+        private StatusOperationType statusOperationType;
         private CobCalendar cobCalendar;
         private Debtor debtor;
         private Amount amount;
@@ -231,8 +232,8 @@ public class Cob {
             return this;
         }
 
-        public Builder withStatusOperation(StatusOperation statusOperation) {
-            this.statusOperation = statusOperation;
+        public Builder withStatusOperation(StatusOperationType statusOperationType) {
+            this.statusOperationType = statusOperationType;
             return this;
         }
 
@@ -255,8 +256,10 @@ public class Cob {
         }
 
         public Builder withDebtor(String cpf, String cnpj, String name) {
-            Debtor deb = new Debtor(cpf, cnpj, name);
-            this.debtor = deb;
+            if (Objects.nonNull(cpf) || Objects.nonNull(cnpj)) {
+                Debtor deb = new Debtor(cpf, cnpj, name);
+                this.debtor = deb;
+            }
             return this;
         }
 

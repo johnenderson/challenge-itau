@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @RestController
 public class CobController {
 
@@ -21,11 +23,11 @@ public class CobController {
      * Criar cobrança imediata
      */
     @PostMapping("cob")
-    public ResponseEntity<Void> CreateImmediateCharge(@RequestBody @Valid CobDto dto) {
+    public ResponseEntity<CobDto> createCob(@RequestBody @Valid CobDto dto) {
 
-        cobService.createImmediateCharge(dto);
+        var cob = cobService.buildRealTimePayment(dto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(URI.create("/cob/" + cob.txId())).body(cob);
     }
 
 }

@@ -1,6 +1,6 @@
-package com.itau.pixms.controller.dto;
+package com.itau.pixms.type;
 
-public enum StatusOperation {
+public enum StatusOperationType {
     ATIVA,
     CONCLUIDA,
     REMOVIDO_PELO_USUARIO_RECEBEDOR,
