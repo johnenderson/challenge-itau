@@ -14,6 +14,7 @@ import com.itau.pixms.infrastructure.entity.Cob;
 import com.itau.pixms.infrastructure.repository.CobRepository;
 import com.itau.pixms.validation.ItemsForValidation;
 import com.itau.pixms.validation.PixPayloadRules;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class CobService {
     private final List<PixPayloadRules> validationRules;
     private final CobRepository cobRepository;
     private final CobMapper cobMapper;
+    private final SqsTemplate sqsTemplate;
     private final static int REVISION_PAYLOAD = 0;
     private final static int CHANGE_MODE = 0;
     private final static int EXPIRATION_DEFAULT_IN_SECONDS = 86400;
@@ -48,12 +50,13 @@ public class CobService {
                       FraudMarkersClient fraudMarkersClient,
                       List<PixPayloadRules> validationRules,
                       CobRepository cobRepository,
-                      CobMapper cobMapper) {
+                      CobMapper cobMapper, SqsTemplate sqsTemplate) {
         this.authService = authService;
         this.fraudMarkersClient = fraudMarkersClient;
         this.validationRules = validationRules;
         this.cobRepository = cobRepository;
         this.cobMapper = cobMapper;
+        this.sqsTemplate = sqsTemplate;
     }
 
     public CobDto buildRealTimePayment(@Valid CobDto inputDto) {
@@ -75,9 +78,24 @@ public class CobService {
         // 4. Salvar transacao
         var entity = persist(dto);
 
-        return cobMapper.toDto(entity);
+        // 5. Converter entidade para DTO
+        var dtoToReturn = cobMapper.toDto(entity);
 
-        //6. Enviar para o SQS
+        // 6. Enviar para o SQS
+        try {
+            var future = sqsTemplate.sendAsync(dtoToReturn);
+            future.whenComplete((result, ex) -> {
+                if (ex != null) {
+                    logger.error("Error sending message to SQS: {}", ex.getMessage(), ex);
+                } else {
+                    logger.info("Message sent successfully. Message ID: {}", result.messageId());
+                }
+            });
+        } catch (Exception e) {
+            logger.error("Exception when trying to send to SQS: {}", e.getMessage(), e);
+        }
+
+        return dtoToReturn;
     }
 
     private Cob persist(CobDto dto) {
