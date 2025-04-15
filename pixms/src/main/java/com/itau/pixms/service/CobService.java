@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -85,7 +86,7 @@ public class CobService {
         try {
             var future = sqsTemplate.sendAsync(dtoToReturn);
             future.whenComplete((result, ex) -> {
-                if (ex != null) {
+                if (Objects.nonNull(ex)) {
                     logger.error("Error sending message to SQS: {}", ex.getMessage(), ex);
                 } else {
                     logger.info("Message sent successfully. Message ID: {}", result.messageId());

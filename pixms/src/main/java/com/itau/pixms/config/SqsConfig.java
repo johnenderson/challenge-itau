@@ -44,6 +44,7 @@ public class SqsConfig {
                 .sqsAsyncClient(sqsAsyncClient)
                 .configureDefaultConverter(converter -> {
                     converter.setObjectMapper(objectMapper);
+                    converter.doNotSendPayloadTypeHeader();
                 })
                 .configure(options -> options.defaultQueue(queueName))
                 .build();
