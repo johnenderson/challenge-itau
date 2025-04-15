@@ -17,5 +17,9 @@ public class DebtorRules implements PixPayloadRules {
         if (Objects.nonNull(debtorDto.cpf()) && Objects.nonNull(debtorDto.cnpj())) {
             throw new InvalidDebtorException("Não é permitido preencher CPF e CNPJ simultaneamente");
         }
+
+        if (Objects.isNull(debtorDto.cpf()) && Objects.isNull(debtorDto.cnpj())) {
+            throw new InvalidDebtorException("É necessário informar CPF ou CNPJ");
+        }
     }
 }
