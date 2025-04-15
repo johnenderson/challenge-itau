@@ -1,5 +1,5 @@
 {
-  "uuid": "8f6529cd-092f-4704-8218-41b21b27813e",
+  "uuid": "bb2ab941-188c-4a06-a8ed-e4f2f3f28a39",
   "lastMigration": 33,
   "name": "Bacen mock",
   "endpointPrefix": "",
@@ -8,46 +8,56 @@
   "hostname": "",
   "folders": [
     {
-      "uuid": "ba438c31-94ca-4633-8c77-426ee54cfbdd",
+      "uuid": "2c841dbe-d724-466c-a175-996a2568e2fe",
       "name": "Chave Pix",
       "children": [
         {
           "type": "route",
-          "uuid": "0c8a4d4b-677f-4644-91f5-b19e5c9e69d9"
+          "uuid": "9506cb83-cc20-4468-bb1d-1963991ebcb7"
         }
       ]
     },
     {
-      "uuid": "257c80dd-9c85-403d-99de-6ddb64111ee5",
+      "uuid": "5211b0dd-5eb0-40b4-9252-3921af4f5889",
       "name": "Antifraude",
       "children": [
         {
           "type": "route",
-          "uuid": "fd1e1559-f1ac-4635-8241-56d2c44d23db"
+          "uuid": "30684721-becd-40ea-8245-a578708546ec"
         }
       ]
     },
     {
-      "uuid": "363fe3f8-1968-4ad2-83ff-7b6dc5f5de69",
+      "uuid": "bba89aaa-4869-4f73-b88a-6523d1a11866",
       "name": "Authentication",
       "children": [
         {
           "type": "route",
-          "uuid": "1f2fa42d-cca8-42fc-b320-3e900d1f3ef8"
+          "uuid": "5888e0b5-5dd1-4b76-a30d-8ad061ba2a8c"
+        }
+      ]
+    },
+    {
+      "uuid": "32109e1e-e394-4ed2-929a-d121634aefb7",
+      "name": "Bacen",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "68bc1744-1374-4967-8bf9-14296523a7de"
         }
       ]
     }
   ],
   "routes": [
     {
-      "uuid": "0c8a4d4b-677f-4644-91f5-b19e5c9e69d9",
+      "uuid": "9506cb83-cc20-4468-bb1d-1963991ebcb7",
       "type": "http",
       "documentation": "Verificar existência de chaves",
       "method": "post",
       "endpoint": "api/keys/check",
       "responses": [
         {
-          "uuid": "6b64b289-68d4-490f-a065-046a6e6c57cf",
+          "uuid": "97c2ed70-b24f-4ced-81f1-7e303fbe1fb5",
           "body": "{\n  \"hasEntry\": \"true\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -81,7 +91,7 @@
           "callbacks": []
         },
         {
-          "uuid": "1e213224-c394-4797-bcae-2648da0cb254",
+          "uuid": "436e7123-0371-4e4a-8718-525bf3308b49",
           "body": "{\n  \"hasEntry\": \"false\"\n}",
           "latency": 0,
           "statusCode": 404,
@@ -115,7 +125,7 @@
           "callbacks": []
         },
         {
-          "uuid": "8fa03974-ffdd-48f8-b5be-ef8a864e3f55",
+          "uuid": "de947a1c-58f2-4120-b068-43e6adfae9b1",
           "body": "{\n  \"message\": \"Not authorized\"\n}",
           "latency": 0,
           "statusCode": 401,
@@ -147,14 +157,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "fd1e1559-f1ac-4635-8241-56d2c44d23db",
+      "uuid": "30684721-becd-40ea-8245-a578708546ec",
       "type": "http",
       "documentation": "Consulta se a chave está marcada como fraude",
       "method": "post",
       "endpoint": "api/fraud-markers",
       "responses": [
         {
-          "uuid": "f67f9b4d-0282-480d-968e-d981b44a2b18",
+          "uuid": "84784bc8-9f12-4186-89c4-a23e00f6d3cd",
           "body": "{\r\n  \"fraudMarker\": \"true\"\r\n}",
           "latency": 0,
           "statusCode": 200,
@@ -188,7 +198,7 @@
           "callbacks": []
         },
         {
-          "uuid": "9e5895bd-a0b9-43e3-83ce-e7cfef978b77",
+          "uuid": "97f168ab-32a6-4464-8155-9c732b1e8e0a",
           "body": "{\r\n  \"fraudMarker\": \"false\"\r\n}",
           "latency": 0,
           "statusCode": 200,
@@ -222,7 +232,7 @@
           "callbacks": []
         },
         {
-          "uuid": "23023fd7-8b5a-4ff6-8697-510beaf42f04",
+          "uuid": "55f00840-fb9d-42a1-97a1-0eb6cd12dd6f",
           "body": "{\n  \"message\": \"Not authorized\"\n}",
           "latency": 0,
           "statusCode": 401,
@@ -254,14 +264,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "1f2fa42d-cca8-42fc-b320-3e900d1f3ef8",
+      "uuid": "5888e0b5-5dd1-4b76-a30d-8ad061ba2a8c",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "api/token",
       "responses": [
         {
-          "uuid": "e920d249-b3cb-405d-ace0-a7b511335f15",
+          "uuid": "51ad38c7-ef44-4c63-b63f-e66863c5240d",
           "body": "{\n  \"message\": \"Bad credentials\"\n}",
           "latency": 0,
           "statusCode": 401,
@@ -280,7 +290,7 @@
           "callbacks": []
         },
         {
-          "uuid": "4a63a477-67f1-4550-a54d-dacb8c7a727a",
+          "uuid": "7775f466-6401-46a1-ad80-aeda2adae174",
           "body": "{\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\",\n  \"expires_in\": 300\n}",
           "latency": 0,
           "statusCode": 200,
@@ -324,20 +334,90 @@
       "responseMode": null,
       "streamingMode": null,
       "streamingInterval": 0
+    },
+    {
+      "uuid": "68bc1744-1374-4967-8bf9-14296523a7de",
+      "type": "http",
+      "documentation": "Envia Cobrança imediata para o BACEN",
+      "method": "post",
+      "endpoint": "api/bacen/send-psp-payment",
+      "responses": [
+        {
+          "uuid": "e60bf8fb-f10d-4583-b8b6-17cb9fba5d02",
+          "body": "{\r\n  \"status\": \"OK\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "authorization",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "5f19639e-453e-46cf-b474-ff7ff1f113be",
+          "body": "{\n  \"message\": \"Not authorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "authorization",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
     {
       "type": "folder",
-      "uuid": "363fe3f8-1968-4ad2-83ff-7b6dc5f5de69"
+      "uuid": "bba89aaa-4869-4f73-b88a-6523d1a11866"
     },
     {
       "type": "folder",
-      "uuid": "ba438c31-94ca-4633-8c77-426ee54cfbdd"
+      "uuid": "2c841dbe-d724-466c-a175-996a2568e2fe"
     },
     {
       "type": "folder",
-      "uuid": "257c80dd-9c85-403d-99de-6ddb64111ee5"
+      "uuid": "5211b0dd-5eb0-40b4-9252-3921af4f5889"
+    },
+    {
+      "type": "folder",
+      "uuid": "32109e1e-e394-4ed2-929a-d121634aefb7"
     }
   ],
   "proxyMode": false,
