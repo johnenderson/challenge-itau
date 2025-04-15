@@ -1,0 +1,18 @@
+services:
+  mockoon:
+    image: mockoon/cli:latest
+    container_name: mockoon-challenge-itau
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./mockon-data:/data:ro
+    command: ["-d", "/data/bacen_mock.json", "-p", "9090"]
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-challenge-itau
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123
