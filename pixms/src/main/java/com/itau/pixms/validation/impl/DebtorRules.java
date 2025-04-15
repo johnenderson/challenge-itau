@@ -1,5 +1,6 @@
 package com.itau.pixms.validation.impl;
 
+import com.itau.pixms.exception.InvalidDebtorException;
 import com.itau.pixms.validation.ItemsForValidation;
 import com.itau.pixms.validation.PixPayloadRules;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ public class DebtorRules implements PixPayloadRules {
         var debtorDto = itemsForValidation.debtorDto();
 
         if (Objects.nonNull(debtorDto.cpf()) && Objects.nonNull(debtorDto.cnpj())) {
-            throw new IllegalArgumentException("Não é permitido preencher CPF e CNPJ simultaneamente");
+            throw new InvalidDebtorException("Não é permitido preencher CPF e CNPJ simultaneamente");
         }
     }
 }
