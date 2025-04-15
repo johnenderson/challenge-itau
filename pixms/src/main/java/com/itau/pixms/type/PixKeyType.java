@@ -35,7 +35,7 @@ public enum PixKeyType {
                 return type;
             }
         }
-        return null; // ou lançar exceção, dependendo do caso
+        return null;
     }
 
     public String getType() {

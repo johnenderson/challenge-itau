@@ -2,9 +2,11 @@ package com.itau.pixms.validation.impl;
 
 import com.itau.pixms.validation.ItemsForValidation;
 import com.itau.pixms.validation.PixPayloadRules;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class DebtorRules implements PixPayloadRules {
 
     @Override

@@ -51,7 +51,6 @@ public class Cob {
     @Field("updated_at")
     private LocalDateTime updatedAt;
 
-    // Construtor privado - só pode ser chamado pelo Builder
     private Cob(Builder builder) {
         this.id = builder.id;
         this.txId = builder.txId;
@@ -70,7 +69,6 @@ public class Cob {
         this.updatedAt = builder.updatedAt;
     }
 
-    // Construtor padrão para o MongoDB
     private Cob() {
         this.id = null;
         this.txId = null;
@@ -87,7 +85,6 @@ public class Cob {
         this.updatedAt = null;
     }
 
-    // Getters
     public String getId() {
         return id;
     }
@@ -140,7 +137,6 @@ public class Cob {
         return updatedAt;
     }
 
-    // Setters necessários para o MongoDB
     public void setId(String id) {
         this.id = id;
     }

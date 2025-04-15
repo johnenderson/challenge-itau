@@ -17,9 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +52,7 @@ public class CobService {
     public void createImmediateCharge(@Valid CobDto dto) {
 
         ItemsForValidation items = new ItemsForValidation(
-                dto.debtorDto()
+                dto.debtorDto(), dto
         );
         for (PixPayloadRules rule : validationRules) {
             rule.valid(items);
