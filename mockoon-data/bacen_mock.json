@@ -344,7 +344,7 @@
       "responses": [
         {
           "uuid": "e60bf8fb-f10d-4583-b8b6-17cb9fba5d02",
-          "body": "{\r\n  \"status\": \"OK\"\r\n}",
+          "body": "{\r\n  \"received\": \"true\"\r\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
