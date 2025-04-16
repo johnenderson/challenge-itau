@@ -39,12 +39,12 @@ Essa arquitetura foi desenvolvida para simular o fluxo de pagamento via PIX util
 
 ## 🔧 Como executar o projeto
 
-1. Clone o repositório:
+1. **Clone o repositório:**
 ```bash
 git clone git@github.com:johnenderson/challenge-itau.git
 cd challenge-itau
 ```
-2. Suba os containers Docker:
+2. **Suba os containers Docker:**
 
 Antes de iniciar as aplicações Spring Boot, execute o seguinte comando na raiz do repositório:
 ```declarative
@@ -55,7 +55,7 @@ Esse comando iniciará os seguintes serviços:
 - Um container com **Mockoon**, disponível na porta **9090**
 - Um container com **LocalStack**, disponível na porta **4566**
 
-3. Execute as aplicações Spring Boot:
+3. **Execute as aplicações Spring Boot:**
 
 ```bash
 # Perfil padrão (Default)
@@ -84,10 +84,11 @@ O serviço `pixms` utiliza o padrão Problem Details para retornar respostas pad
 Foi implementado um interceptor global de exceções utilizando a anotação `@RestControllerAdvice`. Esse componente captura exceções lançadas nos controladores e as transforma em respostas amigáveis e padronizadas para o cliente da API.
 5. **APIs mockadas com autenticação** \
 As APIs simuladas com o Mockoon exigem autenticação, permitindo testar fluxos de segurança e validação mesmo em ambientes de desenvolvimento.
-6. **Proposta de melhoria na arquitetura da solução** \
-   1. Visando maior robustez e escalabilidade, propõe-se a adoção de padrões de resiliência, como:
-   - Circuit Breaker: evita sobrecarga em serviços externos ao interromper chamadas temporariamente quando há falhas repetidas.
-   - Retry: permite a repetição automática de chamadas em caso de falhas temporárias, com controle de tentativas e tempo de espera entre elas.
+6. **Proposta de melhoria na arquitetura da solução** 
+   1. Visando maior robustez e escalabilidade, propõe-se a adoção de padrões de resiliência ao projeto, como:
+   - **Circuit Breaker:** evita sobrecarga em serviços externos ao interromper chamadas temporariamente quando há falhas repetidas.
+   - **Retry:** permite a repetição automática de chamadas em caso de falhas temporárias, com controle de tentativas e tempo de espera entre elas.
+![img.png](architecture/img2.png)
 7. **Uso de Conventional Commits** \
 O projeto adota o padrão Conventional Commits para padronizar as mensagens de commit.
 
