@@ -24,7 +24,7 @@ public class AuthService {
         this.pixConfig = pixConfig;
     }
 
-    public String getToken() {
+    public synchronized String getToken() {
         if (Objects.isNull(token)) {
             generateToken();
         } else if (expiresIn.isBefore(LocalDateTime.now())) {
