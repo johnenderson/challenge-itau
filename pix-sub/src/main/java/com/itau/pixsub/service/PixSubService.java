@@ -4,6 +4,7 @@ import com.itau.pixsub.client.SendPspPayment;
 import com.itau.pixsub.client.dto.SendPspPaymentResponse;
 import com.itau.pixsub.dto.CobDto;
 import com.itau.pixsub.dto.ConfirmationDto;
+import com.itau.pixsub.exception.PixChargeProcessingException;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,16 @@ import java.util.Objects;
 public class PixSubService {
 
     private static final Logger logger = LoggerFactory.getLogger(PixSubService.class);
+
+    private static final String PROCESSING_MESSAGES = "Processing {} messages";
+    private static final String SENDING_CHARGE = "Sending charge with txId: {} to destination service";
+    private static final String CHARGE_SENT_SUCCESSFULLY = "Charge sent successfully, sending confirmation message for txId: {}";
+    private static final String CHARGE_RESPONSE_NOT_TRUE = "Charge response status is not true for txId: {}";
+    private static final String ERROR_SENDING_CHARGE = "Error sending charge to destination service for txId {}: {}";
+    private static final String ALL_MESSAGES_PROCESSED = "All messages processed successfully";
+    private static final String ERROR_SENDING_CONFIRMATION = "Error sending confirmation message for txId {}: {}";
+    private static final String CONFIRMATION_SENT = "Confirmation message sent successfully for txId {}. Message ID: {}";
+    private static final String EXCEPTION_SENDING_CONFIRMATION = "Exception when trying to send confirmation for txId {}: {}";
 
     private final SendPspPayment sendPspPayment;
     private final AuthService authService;
@@ -30,46 +41,62 @@ public class PixSubService {
     }
 
     public void processPix(List<CobDto> cobDtos) {
-        logger.debug("Processing {} messages", cobDtos.size());
-        var token = authService.getToken();
-
-        for (CobDto cobDto : cobDtos) {
-            try {
-                logger.debug("Sending charge with txId: {} to destination service", cobDto.txId());
-                SendPspPaymentResponse response = sendPspPayment.sendToBacen(token, cobDto).getBody();
-
-                if (Objects.nonNull(response) && Boolean.TRUE.equals(response.received())) {
-                    logger.debug("Charge sent successfully, sending confirmation message for txId: {}", cobDto.txId());
-
-                    var txIdConfirm = new ConfirmationDto(
-                            cobDto.txId()
-                    );
-
-                    sendConfirmationMessage(txIdConfirm);
-                } else {
-                    logger.warn("Charge response status is not true for txId: {}", cobDto.txId());
-                }
-            } catch (Exception e) {
-                logger.error("Error sending charge to destination service: {}", e.getMessage(), e);
-                throw e;
-            }
+        if (cobDtos == null || cobDtos.isEmpty()) {
+            logger.info("No messages to process");
+            return;
         }
 
-        logger.debug("All messages processed successfully");
+        logger.debug(PROCESSING_MESSAGES, cobDtos.size());
+        String token = authService.getToken();
+
+        for (CobDto cobDto : cobDtos) {
+            processPixCharge(token, cobDto);
+        }
+
+        logger.debug(ALL_MESSAGES_PROCESSED);
+    }
+
+    private void processPixCharge(String token, CobDto cobDto) {
+        try {
+            String txId = cobDto.txId();
+            logger.debug(SENDING_CHARGE, txId);
+
+            SendPspPaymentResponse response = sendChargeToBacen(token, cobDto);
+
+            if (isResponseSuccessful(response)) {
+                logger.debug(CHARGE_SENT_SUCCESSFULLY, txId);
+                sendConfirmationMessage(new ConfirmationDto(txId));
+            } else {
+                logger.warn(CHARGE_RESPONSE_NOT_TRUE, txId);
+            }
+        } catch (Exception e) {
+            logger.error(ERROR_SENDING_CHARGE, cobDto.txId(), e.getMessage(), e);
+            throw new PixChargeProcessingException("Failed to process PIX charge", e);
+        }
+    }
+
+    private SendPspPaymentResponse sendChargeToBacen(String token, CobDto cobDto) {
+        return sendPspPayment.sendToBacen(token, cobDto).getBody();
+    }
+
+    private boolean isResponseSuccessful(SendPspPaymentResponse response) {
+        return Objects.nonNull(response) && Boolean.TRUE.equals(response.received());
     }
 
     private void sendConfirmationMessage(ConfirmationDto dto) {
         try {
-            var future = sqsTemplate.sendAsync(dto);
-            future.whenComplete((result, ex) -> {
-                if (Objects.nonNull(ex)) {
-                    logger.error("Error sending confirmation message for txId {}: {}", dto.txId(), ex.getMessage(), ex);
-                } else {
-                    logger.info("Confirmation message sent successfully for txId {}. Message ID: {}", dto.txId(), result.messageId());
-                }
-            });
+            String txId = dto.txId();
+            sqsTemplate.sendAsync(dto)
+                    .whenComplete((result, ex) -> {
+                        if (Objects.nonNull(ex)) {
+                            logger.error(ERROR_SENDING_CONFIRMATION, txId, ex.getMessage(), ex);
+                        } else {
+                            logger.info(CONFIRMATION_SENT, txId, result.messageId());
+                        }
+                    });
         } catch (Exception e) {
-            logger.error("Exception when trying to send confirmation for txId {}: {}", dto.txId(), e.getMessage(), e);
+            String txId = dto.txId();
+            logger.error(EXCEPTION_SENDING_CONFIRMATION, txId, e.getMessage(), e);
         }
     }
 }
