@@ -60,6 +60,11 @@ public class CobService {
         this.sqsTemplate = sqsTemplate;
     }
 
+    public Optional<CobDto> findCobByTxId(String txId) {
+        return cobRepository.findByTxId(txId)
+                .map(cobMapper::toDto);
+    }
+
     public CobDto buildRealTimePayment(@Valid CobDto inputDto) {
         CobDto dto = mock(inputDto);
 
