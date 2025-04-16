@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "3ccc996f-2fb3-4ddf-938e-f146d09f976e",
+		"name": "Desafio Itau",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8230363"
+	},
+	"item": [
+		{
+			"name": "Mock Api",
+			"item": [
+				{
+					"name": "Verificar existência de chaves",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"key\": \"40410065897\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/api/keys/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"keys",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Client Credentials OAuth Flow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grant_type\": \"client_credentials\",\r\n    \"client_id\": \"44fc2b1a-d9c4-356f-a76e-ceddb495bcf3\",\r\n    \"client_secret\": \"255c4b4b-c89f-4560-9d19-b85d8d5568c9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/api/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar chave com fraude",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": \"40410065897\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/api/fraud-markers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"fraud-markers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrança Imediata - Bacen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"valor\": {\r\n        \"original\": 500\r\n    },\r\n    \"chave\": \"40410065897\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cob"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pix Ms",
+			"item": [
+				{
+					"name": "Cobrança Imediata",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"valor\": {\r\n        \"original\": 500\r\n    },\r\n    \"chave\": \"40410065897\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API para consultar uma cobrança imediata do txid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cob/:txid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cob",
+								":txid"
+							],
+							"variable": [
+								{
+									"key": "txid",
+									"value": "e41f0f491d0b4ffe86cef083e2a195ca"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrança Imediata - CPF Fraude",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"valor\": {\r\n        \"original\": 650.30\r\n    },\r\n    \"chave\": \"39599150040\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cob"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
