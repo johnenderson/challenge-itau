@@ -22,7 +22,7 @@ public class SqsConfig {
     @Value("${spring.cloud.aws.sqs.region}")
     private String region;
 
-    @Value("${app.aws.queue-name}")
+    @Value("${app.aws.send-queue-name}")
     private String queueName;
 
     @Autowired
